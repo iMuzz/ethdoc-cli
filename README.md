@@ -1,4 +1,4 @@
-ethdoc
+ethdoc-cli
 ======
 
  A command line tool that generates Smart Contract documentation based off of your solidity file.
