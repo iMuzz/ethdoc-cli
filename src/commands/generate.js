@@ -1,6 +1,12 @@
 const {Command, flags} = require('@oclif/command');
 const {Compiler} = require('@0xproject/sol-compiler')
 
+const findAllFilesWithExtension = require('../recursiveSearch');
+
+var parseFileName = function (str) {
+  return str.split('\\').pop().split('/').pop().replace('.sol', '');
+}
+
 class GenerateCommand extends Command {
   async run() {
     const {flags} = this.parse(GenerateCommand);
@@ -8,8 +14,8 @@ class GenerateCommand extends Command {
 
     const currPath = `${process.cwd()}/`;
 
-    // TODO: Dynamically fetch contract names.
-    const contractNames = ['TokenRegistry', 'Ownable_v1'];
+    const files = findAllFilesWithExtension(`./contracts`, 'sol'); // recursively search all files with extension .sol
+    const contractNames = files.map(parseFileName); // get their contract names 'TokenRegistry.sol' > 'TokenRegistry'
 
     const compilerOptions = {
       contracts: contractNames,
