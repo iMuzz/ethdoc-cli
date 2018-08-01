@@ -1,12 +1,45 @@
 const {Command, flags} = require('@oclif/command');
+const {Compiler} = require('@0xproject/sol-compiler')
 
 class GenerateCommand extends Command {
   async run() {
     const {flags} = this.parse(GenerateCommand);
+    const {args} = this.parse(GenerateCommand);
 
-    this.log(`\nCompiling contracts..`);
+    const currPath = `${process.cwd()}/`;
+
+    // TODO: Dynamically fetch contract names.
+    const contractNames = ['TokenRegistry', 'Ownable_v1'];
+
+    const compilerOptions = {
+      contracts: contractNames,
+      artifactsDir: `./ethdoc-artifacts`,
+      contractsDir: `${currPath}contracts`,
+      compilerSettings: {
+        outputSelection: {
+          ['*']: {
+            ['*']: ['abi', 'devdoc'],
+          },
+        },
+      },
+      solcVersion: '0.4.19',
+    }
+
+    const compiler = new Compiler(compilerOptions)
+
+    console.log('\ncompiling contracts...\n');
+    await compiler.compileAsync();
+    console.log('\Sucessfully compiled contracts...\n');
+
   }
 }
+
+GenerateCommand.args = [
+  {
+    name: 'contractsDir',
+    default: 'contracts/',
+  },
+]
 
 GenerateCommand.description = `Generates documentation for contracts located in the ./contracts directory`
 

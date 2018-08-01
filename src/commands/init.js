@@ -15,7 +15,7 @@ class InitCommand extends Command {
   }
 
   async createConfigFile() {
-    fs.writeFile('.ethdocconfig', configTemplate, (err) => {
+    fs.writeFile('.ethdoc.config', configTemplate, (err) => {
       if (err) {
         this.log('We tried creating .ethdocconfig but ran into an issue. Please check your permissions.')
         throw err;
