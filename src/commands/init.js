@@ -30,14 +30,14 @@ class InitCommand extends Command {
   initialize() {
     const tasks = new Listr([
       {
-        title: 'Setting up EthDoc directory',
+        title: 'Configuring directory',
         task: async () => {
           return new Observable(observer => {
 
             observer.next('Creating config file');
             this.createConfigFile();
 
-            observer.next('Cloning EthDoc Repo');
+            observer.next('Cloning repo');
             git.clone('https://github.com/iMuzz/ethdoc.git', [], () => {
               observer.complete();
             })
@@ -45,7 +45,7 @@ class InitCommand extends Command {
         }
       },
       {
-        title: 'Installing npm packages for EthDoc',
+        title: 'Installing packages',
         task: () => {
           return execa.shell('cd ethdoc && npm install');
         }
