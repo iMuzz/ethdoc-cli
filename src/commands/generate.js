@@ -1,7 +1,9 @@
-const exec = require('child_process').exec;
 const git = require('simple-git')();
 const {Command, flags} = require('@oclif/command');
 const {Compiler} = require('@0xproject/sol-compiler')
+const execa = require('execa');
+const Listr = require('listr');
+const Observable = require('rxjs').Observable;
 
 const findAllFilesWithExtension = require('../recursiveSearch');
 
@@ -14,8 +16,13 @@ class GenerateCommand extends Command {
     const {flags} = this.parse(GenerateCommand);
     const {args} = this.parse(GenerateCommand);
 
-    const currPath = `${process.cwd()}/`;
 
+    await this.compileFiles();
+    this.generate();
+  }
+
+  async compileFiles() {
+    const currPath = `${process.cwd()}/`;
     const files = findAllFilesWithExtension(`./contracts`, 'sol'); // recursively search all files with extension .sol
     const contractNames = files.map(parseFileName); // get their contract names 'TokenRegistry.sol' > 'TokenRegistry'
 
@@ -36,21 +43,23 @@ class GenerateCommand extends Command {
     // Compiling user contracts
     const compiler = new Compiler(compilerOptions)
     await compiler.compileAsync();
-
-    console.log('Buidl frontend')
-    // this.cloneFrontend();
   }
 
-  cloneFrontend() {
-    const dir = exec(`npm run build && npm run export`, function(err, stdout, stderr) {
-      if (err) {
-        console.log(err);
-      }
-    });
+  generate() {
+    const tasks = new Listr([
+       {
+        title: 'Compile contracts',
+        task: () => ''
+      },
+      {
+        title: 'Building Docs',
+        task: async () => {
+          return execa.shell('cd ethdoc/ && npm run build && npm run export');
+        }
+      },
+    ]);
 
-    dir.on('exit', function (code) {
-      console.log('Created directory!');
-    });
+    tasks.run();
   }
 }
 
