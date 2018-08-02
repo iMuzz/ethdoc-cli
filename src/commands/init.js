@@ -1,7 +1,12 @@
 const fs = require('fs');
 const path = require('path');
-
+const git = require('simple-git')();
+const exec = require('child_process').exec;
 const {Command, flags} = require('@oclif/command');
+const execa = require('execa');
+const Listr = require('listr');
+const Observable = require('rxjs').Observable;
+
 const configTemplate = require('../configTemplate');
 
 class InitCommand extends Command {
@@ -11,17 +16,44 @@ class InitCommand extends Command {
     const name = flags.name || 'world'
     const currentWorkingDir = `${process.cwd()}`
 
-    this.createConfigFile();
+    this.initialize();
   }
 
-  async createConfigFile() {
-    fs.writeFile('.ethdoc.config', configTemplate, (err) => {
+  createConfigFile(cb) {
+    return fs.writeFile('.ethdoc.config', configTemplate, (err) => {
       if (err) {
-        this.log('We tried creating .ethdocconfig but ran into an issue. Please check your permissions.')
         throw err;
-      } else {
-        console.log('creating')
       }
+    });
+  }
+
+  initialize() {
+    const tasks = new Listr([
+      {
+        title: 'Setting up EthDoc directory',
+        task: async () => {
+          return new Observable(observer => {
+
+            observer.next('Creating config file');
+            this.createConfigFile();
+
+            observer.next('Cloning EthDoc Repo');
+            git.clone('https://github.com/iMuzz/ethdoc.git', [], () => {
+              observer.complete();
+            })
+          });
+        }
+      },
+      {
+        title: 'Installing npm packages for EthDoc',
+        task: () => {
+          return execa.shell('cd ethdoc && npm install');
+        }
+      }
+    ]);
+
+    tasks.run().then(() => {
+      console.log(`\nEnter \`ethdoc generate contracts/\` to create your documentation\n`)
     });
   }
 }

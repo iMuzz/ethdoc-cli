@@ -11,7 +11,11 @@
     "@0xproject/sol-compiler": "^1.0.4",
     "@oclif/command": "^1.4.36",
     "@oclif/config": "^1.6.33",
-    "@oclif/plugin-help": "^2.0.5"
+    "@oclif/plugin-help": "^2.0.5",
+    "execa": "^0.10.0",
+    "listr": "^0.14.1",
+    "rxjs": "^6.2.2",
+    "simple-git": "^1.96.0"
   },
   "devDependencies": {
     "eslint": "^4.19.1",

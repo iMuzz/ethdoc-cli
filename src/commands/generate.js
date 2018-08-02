@@ -1,3 +1,5 @@
+const exec = require('child_process').exec;
+const git = require('simple-git')();
 const {Command, flags} = require('@oclif/command');
 const {Compiler} = require('@0xproject/sol-compiler')
 
@@ -31,12 +33,24 @@ class GenerateCommand extends Command {
       solcVersion: '0.4.19',
     }
 
+    // Compiling user contracts
     const compiler = new Compiler(compilerOptions)
-
-    console.log('\ncompiling contracts...\n');
     await compiler.compileAsync();
-    console.log('\Sucessfully compiled contracts...\n');
 
+    console.log('Buidl frontend')
+    // this.cloneFrontend();
+  }
+
+  cloneFrontend() {
+    const dir = exec(`npm run build && npm run export`, function(err, stdout, stderr) {
+      if (err) {
+        console.log(err);
+      }
+    });
+
+    dir.on('exit', function (code) {
+      console.log('Created directory!');
+    });
   }
 }
 
