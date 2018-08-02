@@ -8,9 +8,14 @@
   },
   "bugs": "https://github.com/iMuzz/ethdoc/issues",
   "dependencies": {
+    "@0xproject/sol-compiler": "^1.0.4",
     "@oclif/command": "^1.4.36",
     "@oclif/config": "^1.6.33",
-    "@oclif/plugin-help": "^2.0.5"
+    "@oclif/plugin-help": "^2.0.5",
+    "execa": "^0.10.0",
+    "listr": "^0.14.1",
+    "rxjs": "^6.2.2",
+    "simple-git": "^1.96.0"
   },
   "devDependencies": {
     "eslint": "^4.19.1",
@@ -21,6 +26,8 @@
   },
   "files": [
     "/bin",
+    "/npm-shrinkwrap.json",
+    "/oclif.manifest.json",
     "/src"
   ],
   "homepage": "https://github.com/iMuzz/ethdoc",
@@ -30,11 +37,18 @@
   "license": "MIT",
   "main": "src/index.js",
   "oclif": {
-    "bin": "ethdoc"
+    "commands": "./src/commands",
+    "bin": "ethdoc",
+    "plugins": [
+      "@oclif/plugin-help"
+    ]
   },
   "repository": "iMuzz/ethdoc",
   "scripts": {
+    "postpack": "rm -f oclif.manifest.json npm-shrinkwrap.json",
     "posttest": "eslint .",
-    "test": "echo NO TESTS"
+    "prepack": "oclif-dev manifest && oclif-dev readme && npm shrinkwrap",
+    "test": "echo NO TESTS",
+    "version": "oclif-dev readme && git add README.md"
   }
 }
