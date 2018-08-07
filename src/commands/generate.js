@@ -19,6 +19,10 @@ class GenerateCommand extends Command {
 
     await this.compileFiles();
     this.generate();
+
+    if (flags.serve) {
+      this.serve();
+    }
   }
 
   async compileFiles() {
@@ -61,6 +65,10 @@ class GenerateCommand extends Command {
 
     tasks.run();
   }
+
+  serve() {
+    execa.shell('cd ethdoc/out && ../node_modules/serve/bin/serve.js').stdout.pipe(process.stdout);
+  }
 }
 
 GenerateCommand.args = [
@@ -74,9 +82,13 @@ GenerateCommand.description = `Generates documentation for contracts located in 
 
 GenerateCommand.flags = {
   file: flags.string({
-    char: 'f',                    // shorter flag version
+    char: 'f',
     description: 'name of solidity file to compile/generate documentation for', // help description for flag
     required: false,              // make flag required (this is not common and you should probably use an argument instead)
+  }),
+  serve: flags.boolean({
+    char: 's',
+    description: 'serves generated docs on http://localhost:5000',
   })
 }
 
