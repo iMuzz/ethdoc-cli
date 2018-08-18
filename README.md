@@ -72,3 +72,5 @@ $ npm link
 This command makes it so that the `ethdoc` command runs the program located in current directory vs. your globally installed version.
 If you're done developing and would like to use the globally installed version, just run `npm unlink`.
 
+## License
+[MIT](https://github.com/iMuzz/ethdoc-cli/blob/master/LICENSE)
