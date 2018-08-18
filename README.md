@@ -57,17 +57,18 @@ $ ethdoc generate otherDirectory/ -s
 
 ## Development
 
-EthDoc was built using [Next.js](https://github.com/zeit/next.js/) which is a framework created by the awesome people over at [Zeit](https://zeit.co/)!
+The EthDoc CLI was built using [Oclif](https://github.com/oclif/oclif) which is a framework for building CLIs in Node made by the awesome people over at [Heroku](https://heroku.com/)!
 
 ##### 1. Install Dependencies
 ```
 $ npm install
 ```
 
-##### 2. Start your server
+##### 2. Link Package
 ```
-$ npm run dev
+$ npm link
 ```
 
-Navigate to http://localhost:3000 to see your changes. All changes are automatically reflected in the browser without having to refresh thanks to Next.js 😍
+This command makes it so that the `ethdoc` command runs the program located in current directory vs. your globally installed version.
+If you're done developing and would like to use the globally installed version, just run `npm unlink`.
 
