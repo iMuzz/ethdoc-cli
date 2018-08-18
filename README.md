@@ -1,18 +1,73 @@
-ethdoc-cli
-======
+<h3 align="center">
+  ⚠️ EthDoc is still a work in progress and has not yet had a V1 release ⚠️ 
+</h3>
 
- A command line tool that generates Smart Contract documentation based off of your solidity file.
+<br />
 
-[![oclif](https://img.shields.io/badge/cli-oclif-brightgreen.svg)](https://oclif.io)
+<h2 align="center">
+  <img src="https://file-qdxymcjlzd.now.sh/" alt="">
+</h2>
+
+<p align="center">
+  <i>Create beautiful automatically generated documentation for Ethereum smart contracts.</i>
+  <br/>
+  <br/>
+  <img src="https://user-images.githubusercontent.com/7297269/44291274-32d9d000-a232-11e8-93a8-9180ee85399e.png" alt="ETHDoc" width="800" />
+</p>
+
 [![Version](https://img.shields.io/npm/v/ethdoc.svg)](https://npmjs.org/package/ethdoc)
-
-[![Appveyor CI](https://ci.appveyor.com/api/projects/status/github/iMuzz/ethdoc?branch=master&svg=true)](https://ci.appveyor.com/project/iMuzz/ethdoc/branch/master)
-[![Codecov](https://codecov.io/gh/iMuzz/ethdoc/branch/master/graph/badge.svg)](https://codecov.io/gh/iMuzz/ethdoc)
 [![Downloads/week](https://img.shields.io/npm/dw/ethdoc.svg)](https://npmjs.org/package/ethdoc)
 [![License](https://img.shields.io/npm/l/ethdoc.svg)](https://github.com/iMuzz/ethdoc/blob/master/package.json)
 
-<!-- toc -->
-# Usage
-<!-- usage -->
-# Commands
-<!-- commands -->
+This repository contains the source code for the CLI portion of [**EthDoc**](https://ethdoc.io). An Open Source developer tool that generates documentation for Smart Contracts using [Ethereum Natural Specification Format](https://github.com/ethereum/wiki/wiki/Ethereum-Natural-Specification-Format).
+
+<br />
+
+## Getting Started
+The easiest way to get started with EthDoc is through the [CLI](https://github.com/iMuzz/ethdoc-cli). Follow the instructions below to get started!
+
+##### 1. Install NPM Package
+```
+$ npm install ethdoc --save
+```
+
+##### 2. Initialize Ethdoc within your Ethereum project
+
+```
+$ ethdoc init
+```
+This may take a few minutes. You only have to run this command the first time you integrate EthDoc into an Ethereum Project.
+
+##### 3. Generate documentation
+
+```
+$ ethdoc generate contracts/ -s
+```
+
+Pass the name of the folder where your contracts are. In the example above, we chose `contracts/`. But if your contracts reside in some `otherDirectory/` you can just pass it in as an argument. Here's an example below: 
+```
+$ ethdoc generate otherDirectory/ -s
+```
+
+##### 4. Check out your documentation 
+
+🎉 Navigate to http://localhost:3000 to check out your docs 🎉
+
+<br />
+
+## Development
+
+EthDoc was built using [Next.js](https://github.com/zeit/next.js/) which is a framework created by the awesome people over at [Zeit](https://zeit.co/)!
+
+##### 1. Install Dependencies
+```
+$ npm install
+```
+
+##### 2. Start your server
+```
+$ npm run dev
+```
+
+Navigate to http://localhost:3000 to see your changes. All changes are automatically reflected in the browser without having to refresh thanks to Next.js 😍
+
